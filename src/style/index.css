@@ -20,7 +20,7 @@ body {
 @source '../**/*.{js,ts,jsx,tsx}';
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+@variant dark (&:is(.dark *));
 
 :root {
   --font-size: 14px;
@@ -203,6 +203,22 @@ body {
   }
 }
 
+@import "./fonts.css";
+@import "./tailwind.css";
+@import "./theme.css";
+
+@keyframes bounce-slow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+.animate-bounce-slow {
+  animation: bounce-slow 2s ease-in-out infinite;
+}
 /* ============================================================
    3. Additional custom utilities & overrides (optional)
    ============================================================ */

@@ -2,11 +2,24 @@ import React, { useState } from "react";
 import { Plus, Trash2, Upload } from "lucide-react";
 import { useStore } from "../../lib/store";
 import type { Gender, Product, SizeStock } from "../../lib/types";
-import { Field, GhostButton, Modal, PrimaryButton, inputCls } from "../common";
+import {
+  Field,
+  GhostButton,
+  Modal,
+  PrimaryButton,
+  inputCls,
+  NumberInput,
+} from "../common";
 
 const DEFAULT_SIZES = ["XS", "S", "M", "L", "XL", "XXL"];
 
-export function ProductModal({ product, onClose }: { product?: Product; onClose: () => void }) {
+export function ProductModal({
+  product,
+  onClose,
+}: {
+  product?: Product;
+  onClose: () => void;
+}) {
   const { addProduct, updateProduct } = useStore();
   const isEdit = !!product;
   const [name, setName] = useState(product?.name ?? "");
@@ -14,7 +27,9 @@ export function ProductModal({ product, onClose }: { product?: Product; onClose:
   const [category, setCategory] = useState<Gender>(product?.category ?? "nam");
   const [price, setPrice] = useState(product?.price ?? 0);
   const [image, setImage] = useState<string | undefined>(product?.image);
-  const [sizes, setSizes] = useState<SizeStock[]>(product?.sizes?.length ? product.sizes : [{ size: "M", qty: 0 }]);
+  const [sizes, setSizes] = useState<SizeStock[]>(
+    product?.sizes?.length ? product.sizes : [{ size: "M", qty: 0 }],
+  );
 
   const total = sizes.reduce((s, sz) => s + (sz.qty || 0), 0);
 
@@ -22,7 +37,9 @@ export function ProductModal({ product, onClose }: { product?: Product; onClose:
     setSizes((s) => s.map((sz, idx) => (idx === i ? { ...sz, ...patch } : sz)));
   }
   function addSize() {
-    const unused = DEFAULT_SIZES.find((s) => !sizes.some((sz) => sz.size === s)) ?? "Free size";
+    const unused =
+      DEFAULT_SIZES.find((s) => !sizes.some((sz) => sz.size === s)) ??
+      "Free size";
     setSizes((s) => [...s, { size: unused, qty: 0 }]);
   }
   function removeSize(i: number) {
@@ -47,40 +64,78 @@ export function ProductModal({ product, onClose }: { product?: Product; onClose:
   }
 
   return (
-    <Modal title={isEdit ? "Sửa sản phẩm" : "Thêm sản phẩm mới"} subtitle="Tồn kho được chia theo từng size" onClose={onClose} width={560}>
+    <Modal
+      title={isEdit ? "Sửa sản phẩm" : "Thêm sản phẩm mới"}
+      subtitle="Tồn kho được chia theo từng size"
+      onClose={onClose}
+      width={560}
+    >
       <form onSubmit={handleSubmit} className="space-y-4">
         <Field label="Hình ảnh">
           <label className="flex items-center gap-3 cursor-pointer">
             <div className="w-16 h-16 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center overflow-hidden flex-shrink-0">
-              {image ? <img src={image} alt="" className="w-full h-full object-cover" /> : <Upload size={16} className="text-muted-foreground" />}
+              {image ? (
+                <img
+                  src={image}
+                  alt=""
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <Upload size={16} className="text-muted-foreground" />
+              )}
             </div>
-            <span className="text-xs text-muted-foreground">Bấm để tải ảnh lên</span>
-            <input type="file" accept="image/*" className="hidden" onChange={handleImage} />
+            <span className="text-xs text-muted-foreground">
+              Bấm để tải ảnh lên
+            </span>
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleImage}
+            />
           </label>
         </Field>
 
         <div className="grid grid-cols-2 gap-4">
           <Field label="Tên đồ">
-            <input autoFocus className={inputCls} placeholder="Vest Nam, Áo dài..." value={name} onChange={(e) => setName(e.target.value)} />
+            <input
+              autoFocus
+              className={inputCls}
+              placeholder="Vest Nam, Áo dài..."
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
           </Field>
           <Field label="Giá thuê / lượt">
-            <input type="number" min={0} className={inputCls} value={price} onChange={(e) => setPrice(Math.max(0, +e.target.value))} />
+            <NumberInput value={price} onChange={setPrice} placeholder="0" />
           </Field>
         </div>
 
         <Field label="Mô tả">
-          <input className={inputCls} placeholder="Chất liệu, kiểu dáng..." value={desc} onChange={(e) => setDesc(e.target.value)} />
+          <input
+            className={inputCls}
+            placeholder="Chất liệu, kiểu dáng..."
+            value={desc}
+            onChange={(e) => setDesc(e.target.value)}
+          />
         </Field>
 
         <Field label="Giới tính">
           <div className="flex gap-2">
-            {([{ id: "nam", label: "Nam" }, { id: "nu", label: "Nữ" }] as const).map((g) => (
+            {(
+              [
+                { id: "nam", label: "Nam" },
+                { id: "nu", label: "Nữ" },
+              ] as const
+            ).map((g) => (
               <button
                 type="button"
                 key={g.id}
                 onClick={() => setCategory(g.id)}
                 className={`flex-1 px-3 py-2 rounded-xl text-xs font-medium border transition-colors ${
-                  category === g.id ? "border-white/25 bg-white/[0.08] text-foreground" : "border-white/[0.06] text-muted-foreground"
+                  category === g.id
+                    ? "border-white/25 bg-white/[0.08] text-foreground"
+                    : "border-white/[0.06] text-muted-foreground"
                 }`}
               >
                 {g.label}
@@ -99,20 +154,26 @@ export function ProductModal({ product, onClose }: { product?: Product; onClose:
                   onChange={(e) => updateSize(i, { size: e.target.value })}
                   placeholder="Size"
                 />
-                <input
-                  type="number"
-                  min={0}
-                  className={inputCls}
+                <NumberInput
                   value={sz.qty}
-                  onChange={(e) => updateSize(i, { qty: Math.max(0, +e.target.value) })}
+                  onChange={(v) => updateSize(i, { qty: Math.max(0, v) })}
+                  className={inputCls}
                   placeholder="Số lượng"
                 />
-                <button type="button" onClick={() => removeSize(i)} className="p-2 rounded-lg text-muted-foreground hover:text-red-400 hover:bg-white/[0.04]">
+                <button
+                  type="button"
+                  onClick={() => removeSize(i)}
+                  className="p-2 rounded-lg text-muted-foreground hover:text-red-400 hover:bg-white/[0.04]"
+                >
                   <Trash2 size={14} />
                 </button>
               </div>
             ))}
-            <button type="button" onClick={addSize} className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors">
+            <button
+              type="button"
+              onClick={addSize}
+              className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
               <Plus size={12} /> Thêm size
             </button>
           </div>
@@ -120,7 +181,9 @@ export function ProductModal({ product, onClose }: { product?: Product; onClose:
 
         <div className="flex justify-end gap-3 pt-2">
           <GhostButton onClick={onClose}>Hủy</GhostButton>
-          <PrimaryButton type="submit">{isEdit ? "Lưu thay đổi" : "Thêm sản phẩm"}</PrimaryButton>
+          <PrimaryButton type="submit">
+            {isEdit ? "Lưu thay đổi" : "Thêm sản phẩm"}
+          </PrimaryButton>
         </div>
       </form>
     </Modal>

@@ -1,9 +1,8 @@
 export type Gender = "nam" | "nu";
-
 export type OrderStatus = "pending" | "deposit" | "paid";
 
 export interface SizeStock {
-  size: string; // "S" | "M" | "L" | "XL" | ...
+  size: string;
   qty: number;
 }
 
@@ -11,16 +10,29 @@ export interface Product {
   id: string;
   name: string;
   desc: string;
-  image?: string; // base64 or url
+  image?: string;
   category: Gender;
   price: number;
-  sizes: SizeStock[]; // total stock = sum of qty
+  sizes: SizeStock[];
+  createdAt: number;
+}
+
+export interface Student {
+  id: string;
+  customerId: string;
+  name: string;
+  height: number;
+  weight: number;
+  size: string;
+  note?: string;
   createdAt: number;
 }
 
 export interface Customer {
   id: string;
-  className: string; // Lớp, e.g. "12A1"
+  className: string;
+  teacherName?: string;
+  school?: string;
   phone: string;
   studentCount?: number;
   note: string;
@@ -29,28 +41,30 @@ export interface Customer {
 
 export interface OrderItem {
   productId: string;
-  qty: number; // units rented of this product
+  qty: number;
+  priceOverride?: number;
 }
 
 export interface Order {
-  id: string; // "#001"
+  id: string;
   customerId: string;
   maleCount: number;
   femaleCount: number;
-  maleItems: OrderItem[]; // products selected for nam
-  femaleItems: OrderItem[]; // products selected for nữ
-  rentDate: string; // ISO yyyy-mm-dd
-  returnDate?: string; // ISO yyyy-mm-dd
-  depositPercent: number; // 0, 50, 100
+  maleItems: OrderItem[];
+  femaleItems: OrderItem[];
+  rentDate: string;
+  returnDate?: string;
+  depositPercent: number;
   status: OrderStatus;
   returned: boolean;
   note?: string;
+  extraFee?: number;
   createdAt: number;
 }
 
 export interface ScheduleEvent {
   id: string;
-  date: string; // ISO yyyy-mm-dd
+  date: string;
   label: string;
   type: "rent" | "return" | "studio" | "other";
   orderId?: string;
@@ -70,8 +84,8 @@ export interface Settings {
   shopTagline: string;
   currency: string;
   defaultDepositPercent: number;
-  googleSheetLink: string;
   lowStockThreshold: number;
+  sizeMapping?: Record<string, string>;
 }
 
 export interface AppData {
@@ -80,5 +94,6 @@ export interface AppData {
   orders: Order[];
   events: ScheduleEvent[];
   notes: Note[];
+  students: Student[];
   settings: Settings;
 }

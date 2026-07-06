@@ -9,6 +9,7 @@ import { Revenue } from "../pages/Revenue";
 import { Schedule } from "../pages/Schedule";
 import { NotesPage } from "../pages/Notes";
 import { SettingsPage } from "../pages/Settings";
+import { Check } from "../pages/check";
 
 export type Screen =
   | "dashboard"
@@ -18,7 +19,8 @@ export type Screen =
   | "revenue"
   | "calendar"
   | "notes"
-  | "settings";
+  | "settings"
+  | "check";
 
 function Shell() {
   const [screen, setScreen] = useState<Screen>("dashboard");
@@ -32,12 +34,23 @@ function Shell() {
     calendar: <Schedule />,
     notes: <NotesPage />,
     settings: <SettingsPage />,
+    check: <Check />,
   };
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-background text-foreground" style={{ fontFamily: "Inter, system-ui, sans-serif" }}>
+    <div
+      className="flex h-screen w-screen overflow-hidden bg-background text-foreground"
+      style={{ fontFamily: "Inter, system-ui, sans-serif" }}
+    >
       <Sidebar screen={screen} onNav={setScreen} />
       <main className="flex-1 overflow-hidden">{screenComponents[screen]}</main>
+      {/* 🦆 Linh vật vịt */}
+      <div
+        className="fixed bottom-4 left-4 text-5xl select-none animate-bounce-slow opacity-80 hover:opacity-100 transition-opacity z-50"
+        style={{ filter: "drop-shadow(0 4px 8px rgba(217,70,168,0.3))" }}
+      >
+        🦆
+      </div>
     </div>
   );
 }
