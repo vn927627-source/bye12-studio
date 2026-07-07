@@ -1,3 +1,4 @@
+// src/lib/store.tsx
 import React, {
   createContext,
   useContext,

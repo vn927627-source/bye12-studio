@@ -1,3 +1,4 @@
+// src/components/common.tsx
 import React, { useState, useEffect } from "react";
 import {
   X,
@@ -184,7 +185,7 @@ export function PrimaryButton({
   type?: "button" | "submit";
   disabled?: boolean;
   className?: string;
-}): React.JSX.Element {
+}) {
   return (
     <button
       type={type}
@@ -218,18 +219,21 @@ export function GhostButton({
   );
 }
 
+// NumberInput – không có giá trị 0 mặc định
 export function NumberInput({
   value,
   onChange,
   placeholder,
   className = inputCls,
   min = 0,
+  max = Infinity,
 }: {
   value?: number;
   onChange: (v: number) => void;
   placeholder?: string;
   className?: string;
   min?: number;
+  max?: number;
 }) {
   const [input, setInput] = useState(value?.toString() ?? "");
   useEffect(() => {
@@ -240,7 +244,7 @@ export function NumberInput({
     const val = e.target.value;
     setInput(val);
     const num = parseFloat(val);
-    if (!isNaN(num) && num >= min) {
+    if (!isNaN(num) && num >= min && num <= max) {
       onChange(num);
     } else if (val === "") {
       onChange(0);
@@ -251,6 +255,7 @@ export function NumberInput({
     <input
       type="number"
       min={min}
+      max={max}
       className={className}
       placeholder={placeholder}
       value={input}

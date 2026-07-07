@@ -1,3 +1,4 @@
+// src/pages/Warehouse.tsx
 import { useState } from "react";
 import { Plus, Search, Shirt, Edit2, Trash2, Tag } from "lucide-react";
 import { useStore } from "../lib/store";

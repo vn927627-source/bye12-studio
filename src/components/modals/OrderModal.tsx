@@ -1,3 +1,4 @@
+// src/components/modals/OrderModal.tsx
 import React, { useMemo, useState } from "react";
 import { useStore } from "../../lib/store";
 import type { Order, OrderItem, OrderStatus } from "../../lib/types";
@@ -79,6 +80,19 @@ export function OrderModal({
     }
   }
 
+  function updateQty(
+    items: OrderItem[],
+    setItems: (v: OrderItem[]) => void,
+    productId: string,
+    qty: number,
+  ) {
+    setItems(
+      items.map((it) =>
+        it.productId === productId ? { ...it, qty: Math.max(0, qty) } : it,
+      ),
+    );
+  }
+
   function updatePriceOverride(
     items: OrderItem[],
     setItems: (v: OrderItem[]) => void,
@@ -110,6 +124,8 @@ export function OrderModal({
         className: newClassName.trim(),
         phone: "",
         note: "",
+        teacherName: "",
+        school: "",
         studentCount: 0,
       });
       finalCustomerId = c.id;
@@ -186,25 +202,18 @@ export function OrderModal({
 
         <div className="grid grid-cols-2 gap-4">
           <Field label="Số lượng nam">
-            <input
-              type="number"
-              min={0}
-              className={inputCls}
-              value={maleCount}
-              onChange={(e) => setMaleCount(Math.max(0, +e.target.value))}
-            />
+            <NumberInput value={maleCount} onChange={setMaleCount} min={0} />
           </Field>
           <Field label="Số lượng nữ">
-            <input
-              type="number"
-              min={0}
-              className={inputCls}
+            <NumberInput
               value={femaleCount}
-              onChange={(e) => setFemaleCount(Math.max(0, +e.target.value))}
+              onChange={setFemaleCount}
+              min={0}
             />
           </Field>
         </div>
 
+        {/* Đồ nam */}
         <Field label={`Đồ nam thuê (áp dụng cho ${maleCount} bạn nam)`}>
           {maleProducts.length === 0 ? (
             <p className="text-xs text-muted-foreground">
@@ -248,20 +257,18 @@ export function OrderModal({
                         <span className="text-muted-foreground text-[10px]">
                           Giá thủ công:
                         </span>
-                        <input
-                          type="number"
-                          className="w-20 px-1 py-0.5 rounded bg-white/[0.05] border border-white/[0.08] text-xs"
-                          placeholder="Giá"
-                          value={item.priceOverride ?? ""}
-                          onChange={(e) => {
-                            const val = parseFloat(e.target.value);
+                        <NumberInput
+                          value={item.priceOverride}
+                          onChange={(v) =>
                             updatePriceOverride(
                               maleItems,
                               setMaleItems,
                               p.id,
-                              isNaN(val) ? undefined : val,
-                            );
-                          }}
+                              v,
+                            )
+                          }
+                          className="w-20 px-1 py-0.5 rounded bg-white/[0.05] border border-white/[0.08] text-xs"
+                          placeholder="Giá"
                         />
                       </div>
                     )}
@@ -272,6 +279,7 @@ export function OrderModal({
           )}
         </Field>
 
+        {/* Đồ nữ */}
         <Field label={`Đồ nữ thuê (áp dụng cho ${femaleCount} bạn nữ)`}>
           {femaleProducts.length === 0 ? (
             <p className="text-xs text-muted-foreground">
@@ -315,20 +323,18 @@ export function OrderModal({
                         <span className="text-muted-foreground text-[10px]">
                           Giá thủ công:
                         </span>
-                        <input
-                          type="number"
-                          className="w-20 px-1 py-0.5 rounded bg-white/[0.05] border border-white/[0.08] text-xs"
-                          placeholder="Giá"
-                          value={item.priceOverride ?? ""}
-                          onChange={(e) => {
-                            const val = parseFloat(e.target.value);
+                        <NumberInput
+                          value={item.priceOverride}
+                          onChange={(v) =>
                             updatePriceOverride(
                               femaleItems,
                               setFemaleItems,
                               p.id,
-                              isNaN(val) ? undefined : val,
-                            );
-                          }}
+                              v,
+                            )
+                          }
+                          className="w-20 px-1 py-0.5 rounded bg-white/[0.05] border border-white/[0.08] text-xs"
+                          placeholder="Giá"
                         />
                       </div>
                     )}

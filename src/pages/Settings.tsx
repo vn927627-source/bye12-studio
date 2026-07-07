@@ -6,8 +6,7 @@ import {
   GhostButton,
   PrimaryButton,
   inputCls,
-  PINK,
-  VIOLET,
+  NumberInput,
   RED,
 } from "../components/common";
 
@@ -94,27 +93,19 @@ export function SettingsPage() {
             />
           </Field>
           <Field label="% cọc mặc định">
-            <input
-              type="number"
+            <NumberInput
+              value={form.defaultDepositPercent}
+              onChange={(v) => setForm({ ...form, defaultDepositPercent: v })}
               min={0}
               max={100}
-              className={inputCls}
-              value={form.defaultDepositPercent}
-              onChange={(e) =>
-                setForm({ ...form, defaultDepositPercent: +e.target.value })
-              }
             />
           </Field>
         </div>
         <Field label="Ngưỡng cảnh báo sắp hết hàng (số lượng còn lại)">
-          <input
-            type="number"
-            min={0}
-            className={inputCls}
+          <NumberInput
             value={form.lowStockThreshold}
-            onChange={(e) =>
-              setForm({ ...form, lowStockThreshold: +e.target.value })
-            }
+            onChange={(v) => setForm({ ...form, lowStockThreshold: v })}
+            min={0}
           />
         </Field>
         <Field label="Ánh xạ size (tùy chọn)">

@@ -1,3 +1,4 @@
+// src/app/App.tsx
 import { useState } from "react";
 import { StoreProvider } from "../lib/store";
 import { Sidebar } from "../components/Sidebar";
@@ -44,7 +45,7 @@ function Shell() {
     >
       <Sidebar screen={screen} onNav={setScreen} />
       <main className="flex-1 overflow-hidden">{screenComponents[screen]}</main>
-      {/* 🦆 Linh vật vịt */}
+      {/* Linh vật vịt */}
       <div
         className="fixed bottom-4 left-4 text-5xl select-none animate-bounce-slow opacity-80 hover:opacity-100 transition-opacity z-50"
         style={{ filter: "drop-shadow(0 4px 8px rgba(217,70,168,0.3))" }}

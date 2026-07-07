@@ -1,3 +1,4 @@
+// src/components/modals/ProductModal.tsx
 import React, { useState } from "react";
 import { Plus, Trash2, Upload } from "lucide-react";
 import { useStore } from "../../lib/store";

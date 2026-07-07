@@ -1,3 +1,4 @@
+// src/pages/Customers.tsx
 import { useState } from "react";
 import {
   Plus,
@@ -246,6 +247,7 @@ function StudentTableModal({
       width={820}
     >
       <div className="space-y-4">
+        {/* Bảng danh sách học sinh */}
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
@@ -394,6 +396,7 @@ function StudentTableModal({
           </table>
         </div>
 
+        {/* Form thêm học sinh mới */}
         <div className="border-t border-white/[0.06] pt-4">
           <p className="text-xs text-muted-foreground mb-3">
             Thêm học sinh mới

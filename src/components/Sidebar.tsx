@@ -1,3 +1,4 @@
+// src/components/Sidebar.tsx
 import React from "react";
 import {
   LayoutDashboard,

@@ -1,3 +1,4 @@
+// src/components/modals/EventModal.tsx
 import React, { useState } from "react";
 import { useStore } from "../../lib/store";
 import { Field, GhostButton, Modal, PrimaryButton, inputCls } from "../common";

@@ -1,3 +1,4 @@
+// src/lib/utils.ts
 import type { Order, Product, OrderItem } from "./types";
 
 export function fmtMoney(n: number): string {
@@ -104,6 +105,7 @@ export const MONTH_LABELS = [
   "T12",
 ];
 
+// Tính size dựa trên chiều cao và cân nặng
 export function calculateSize(height: number, weight: number): string {
   if (height <= 0 || weight <= 0) return "";
   const bmi = weight / (height / 100) ** 2;

@@ -1,7 +1,15 @@
+// src/components/modals/CustomerModal.tsx
 import React, { useState } from "react";
 import { useStore } from "../../lib/store";
 import type { Customer } from "../../lib/types";
-import { Field, GhostButton, Modal, PrimaryButton, inputCls } from "../common";
+import {
+  Field,
+  GhostButton,
+  Modal,
+  PrimaryButton,
+  inputCls,
+  NumberInput,
+} from "../common";
 
 export function CustomerModal({
   customer,
@@ -10,7 +18,7 @@ export function CustomerModal({
   customer?: Customer;
   onClose: () => void;
 }) {
-  const { addCustomer, updateCustomer, data } = useStore();
+  const { addCustomer, updateCustomer } = useStore();
   const isEdit = !!customer;
   const [className, setClassName] = useState(customer?.className ?? "");
   const [teacherName, setTeacherName] = useState(customer?.teacherName ?? "");
@@ -77,12 +85,10 @@ export function CustomerModal({
           />
         </Field>
         <Field label="Sĩ số (số học sinh)">
-          <input
-            type="number"
-            min={0}
-            className={inputCls}
+          <NumberInput
             value={studentCount}
-            onChange={(e) => setStudentCount(Math.max(0, +e.target.value))}
+            onChange={setStudentCount}
+            placeholder="0"
           />
         </Field>
         <Field label="Ghi chú">
