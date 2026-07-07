@@ -177,13 +177,14 @@ export function PrimaryButton({
   onClick,
   type = "button",
   disabled,
+  className,
 }: {
   children: React.ReactNode;
   onClick?: () => void;
   type?: "button" | "submit";
   disabled?: boolean;
   className?: string;
-}) {
+}): React.JSX.Element {
   return (
     <button
       type={type}

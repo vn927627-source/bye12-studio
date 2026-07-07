@@ -16,7 +16,7 @@ body {
 /* ============================================================
    2. Tailwind CSS v4 (with custom variants & theme)
    ============================================================ */
-@import "tailwindcss" source(none);
+@import "tailwindcss";
 @source '../**/*.{js,ts,jsx,tsx}';
 @import "tw-animate-css";
 
@@ -202,10 +202,6 @@ body {
     background: rgba(217, 70, 168, 0.4);
   }
 }
-
-@import "./fonts.css";
-@import "./tailwind.css";
-@import "./theme.css";
 
 @keyframes bounce-slow {
   0%,
